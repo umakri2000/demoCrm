@@ -1,7 +1,4 @@
 
-
-version: "3.9"
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -59,9 +56,9 @@ services:
     container_name: democrm-frontend
     restart: unless-stopped
     ports:
-      # Map host 5173 -> container 80 (Nginx serves built assets on port 80)
-      - "5173:80"
-    # Production image serves built assets via nginx; no bind mounts required
+      
+      - "5173:5173"
+   
     depends_on:
       - backend
     networks:
