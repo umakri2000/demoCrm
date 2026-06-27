@@ -32,14 +32,19 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
-    env_file:
-      - ./server/.env
+  
     environment:
-      # Override DB_HOST to use the Docker service name instead of localhost
+       # Environment variables for backend configuration as of now it is included in docker-compose.yml but can be moved to .env file for better security and management
+      PORT: 5000
+      JWT_SECRET: "dmfmn%7ttb7b7^%R&8jueu&7ytffe"
+      JWT_EXPIRES_IN: "1h"
+      REFRESH_TOKEN_SECRET: "jngsier$hglkg45u9@hr43gverg34%"
+      REFRESH_TOKEN_EXPIRY: "7d"
       DB_HOST: postgres
-      # Use the default PostgreSQL port inside Docker
       DB_PORT: 5432
-    # For production image we do not bind-mount source — the image contains app files
+      DB_USER: postgres
+      DB_PASSWORD: "1234"
+      DB_NAME: democrm
     depends_on:
       postgres:
         condition: service_healthy
