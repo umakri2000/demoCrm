@@ -1,0 +1,82 @@
+
+
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: democrm-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-1234}
+      POSTGRES_DB: democrm
+    ports:
+      - "5432:5432"
+    volumes:
+        # Named volume — data persists across container restarts/recreations
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d democrm"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ---------------------------------------------------------
+  # Backend — Node.js + Express API
+  # ---------------------------------------------------------
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: democrm-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    environment:
+      # Override DB_HOST to use the Docker service name instead of localhost
+      DB_HOST: postgres
+      # Use the default PostgreSQL port inside Docker
+      DB_PORT: 5432
+    # For production image we do not bind-mount source — the image contains app files
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # ---------------------------------------------------------
+  # Frontend — React + Vite Dev Server
+  # ---------------------------------------------------------
+  frontend:
+    build:
+      context: ./client/demoCrmClient
+      dockerfile: Dockerfile
+    container_name: democrm-frontend
+    restart: unless-stopped
+    ports:
+      # Map host 5173 -> container 80 (Nginx serves built assets on port 80)
+      - "5173:80"
+    # Production image serves built assets via nginx; no bind mounts required
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+# -----------------------------------------------------------
+# Named Volumes
+# -----------------------------------------------------------
+volumes:
+  postgres_data:       # Persistent PostgreSQL data
+  # frontend_node_modules and backend_node_modules removed for production image usage
+
+# -----------------------------------------------------------
+# Custom Bridge Network
+# -----------------------------------------------------------
+networks:
+  app-network:
+    driver: bridge
