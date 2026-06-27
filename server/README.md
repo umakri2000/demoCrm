@@ -1,6 +1,6 @@
-# LeadFlow CRM — Backend
+#  CRM — Backend
 
-Server-side implementation for the LeadFlow CRM demo application. This repository provides a Node.js + Express API that handles authentication (JWT + refresh tokens), customer CRUD operations, dashboard summaries, and a contact form endpoint. The server uses PostgreSQL for persistence and includes automatic database creation and schema initialization on startup.
+Server-side implementation for the  CRM demo application. This repository provides a Node.js + Express API that handles authentication (JWT + refresh tokens), customer CRUD operations, dashboard summaries, and a contact form endpoint. The server uses PostgreSQL for persistence and includes automatic database creation and schema initialization on startup.
 
 ---
 
@@ -174,8 +174,7 @@ All endpoints are prefixed with `/api` when mounted. The server exposes the foll
   - `users` table: `id (UUID PK)`, `email (unique)`, `name`, `role`, `passwordHash`, `createdAt`.
   - `customers` table: `id (UUID PK)`, `name`, `company`, `email`, `phone`, `source`, `status`, `notes`, `created_at`.
 - Database creation: `src/config/ensureDatabase.js` connects to the server's default `postgres` database and creates the configured DB if it does not exist. The name is validated for safety before creation.
-- Migrations: Not implemented. The project relies on `initDB` to ensure schema presence.
-- Seeds: `userService.initializeSeedUser()` seeds a default admin user if one with the configured seed email is missing. Review the code to change seeded credentials before use in production.
+
 
 ---
 

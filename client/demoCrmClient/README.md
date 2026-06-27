@@ -94,15 +94,6 @@ This serves the production build locally using Vite's preview server.
 
 ---
 
-## Environment Variables
-
-- No `.env` or environment variable usage found in the client codebase.
-- The Axios base URL is hard-coded in `src/api/axiosInstance.ts` as `http://localhost:5000/api`.
-
-If you prefer environment-driven configuration, consider replacing the hard-coded `baseURL` with `import.meta.env.VITE_API_URL` and adding a `.env` with `VITE_API_URL`.
-
----
-
 ## Available Scripts
 
 The following scripts are defined in [package.json](package.json):
@@ -111,10 +102,7 @@ The following scripts are defined in [package.json](package.json):
 |---|---|---|
 | `dev` | `vite` | Start Vite development server.
 | `build` | `tsc -b && vite build` | Type-check / build TypeScript project then build production assets with Vite.
-| `lint` | `oxlint` | Runs `oxlint` (project linter) — configured as a dev dependency.
-| `preview` | `vite preview` | Preview a production build locally.
 
----
 
 ## Project Architecture
 
@@ -130,7 +118,7 @@ The following scripts are defined in [package.json](package.json):
 ## API Integration
 
 - **API client**: `src/api/axiosInstance.ts` creates a single Axios instance with:
-  - `baseURL: 'http://localhost:5000/api'` (hard-coded)
+  - `baseURL: 'http://localhost:5000/api'` (hard-coded) need to change to env asap
   - `withCredentials: true`
   - `Content-Type: application/json`
 - **Request interceptor**: Adds `Authorization: Bearer <token>` header when `memoryToken` is set via `setAuthToken` (used by `AuthContext`).
@@ -180,3 +168,11 @@ The following scripts are defined in [package.json](package.json):
 - Add a centralized notification/toast system for consistent success/error feedback.
 
 ---
+# Screenshots
+
+![login Screen](image-2.png)
+![contact](image-3.png)
+![table for the user](image.png)
+
+![dashboard](image-1.png)
+

@@ -28,7 +28,7 @@ export var AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({ children
                 <span className="w-1.5 h-5 bg-blue-600 rounded-[1px]"></span>
                 <span className="w-1.5 h-4 bg-blue-600 rounded-[1px]"></span>
               </div>
-              <span className="text-[18px] font-bold text-slate-900 tracking-tight hidden sm:block">LeadFlow CRM</span>
+              <span className="text-[18px] font-bold text-slate-900 tracking-tight hidden sm:block">CRM</span>
             </div>
 
             {/* Desktop Navigation */}
